@@ -16,7 +16,7 @@ import java.util.HashMap;
  */
 public class TouchyFilterUtil {
     private static HashMap<ImageView,Boolean> runningMap = new HashMap<>();
-    public static void applyFilter(final Activity activity, final ImageView imageView, final TouchyFilterMode touchyFilterMode) {
+    public static void applyFilter(final Activity activity, final ImageView imageView, final TouchyFilterMode touchyFilterMode, final TouchyFilter.FilterAnimationCompleteListener filterAnimationCompleteListener) {
         if(imageView!=null && (!runningMap.containsKey(imageView))) {
             runningMap.put(imageView,true);
             final Bitmap imageViewBitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
@@ -63,6 +63,15 @@ public class TouchyFilterUtil {
                         }
                         else if(w <= 0 && k<0) {
                             runningMap.remove(imageView);
+                            if(filterAnimationCompleteListener!=null) {
+                                activity.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        filterAnimationCompleteListener.onComplete();
+                                    }
+                                });
+
+                            }
                             break;
                         }
                         w+=k;

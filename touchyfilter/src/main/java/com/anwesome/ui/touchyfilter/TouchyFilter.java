@@ -15,6 +15,11 @@ public class TouchyFilter {
         this.activity = activity;
         this.imageView = imageView;
     }
+
+    public static TouchyFilter newInstance(Activity activity, ImageView imageView) {
+        return new TouchyFilter(activity,imageView);
+
+    }
     public void setOnFilterAnimationCompleteListener(FilterAnimationCompleteListener filterAnimationCompleteListener) {
         this.filterAnimationCompleteListener = filterAnimationCompleteListener;
     }
@@ -22,7 +27,7 @@ public class TouchyFilter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TouchyFilterUtil.applyFilter(activity,imageView,touchyFilterMode);
+                TouchyFilterUtil.applyFilter(activity,imageView,touchyFilterMode,filterAnimationCompleteListener);
             }
         });
     }
